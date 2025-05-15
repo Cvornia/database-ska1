@@ -1,4 +1,4 @@
-FROM alpine:latest
+FROM alpine:3.18
 
 # Install curl dan unzip
 RUN apk add --no-cache curl unzip
@@ -8,8 +8,8 @@ RUN curl -L https://github.com/pocketbase/pocketbase/releases/download/v0.21.1/p
     && unzip pb.zip \
     && rm pb.zip
 
-# Copy data (opsional jika punya)
-# COPY pb_data ./pb_data
+# Set working directory
+WORKDIR /pb
 
 # Expose port untuk Railway
 EXPOSE 8090
