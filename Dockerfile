@@ -1,17 +1,19 @@
-FROM alpine:latest
+FROM alpine:3.18
 
-ARG VERSION=0.22.1
+# Install dependencies
+RUN apk add --no-cache curl unzip
 
-WORKDIR /app
+# Download PocketBase binary
+RUN curl -L -o /tmp/pb.zip https://github.com/pocketbase/pocketbase/releases/download/v0.21.1/pocketbase_0.21.1_linux_amd64.zip && \
+    unzip /tmp/pb.zip -d /pb && \
+    chmod +x /pb/pocketbase && \
+    rm /tmp/pb.zip
 
-ADD https://github.com/pocketbase/pocketbase/releases/download/v${VERSION}/pocketbase_${VERSION}_linux_amd64.zip /pocketbase.zip
-
-RUN apk add unzip && \
-    unzip /pocketbase.zip && \
-    rm /pocketbase.zip
-
-COPY pb_data/ ./pb_data/
-
+# Expose port
 EXPOSE 8090
 
+# Set working directory
+WORKDIR /pb
+
+# Run PocketBase
 CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090"]
