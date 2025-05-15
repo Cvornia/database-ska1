@@ -11,8 +11,11 @@ RUN curl -L https://github.com/pocketbase/pocketbase/releases/download/v0.21.1/p
 # Set working directory
 WORKDIR /pb
 
+# Pastikan file pocketbase diekstrak dengan benar
+RUN ls -l /pb
+
 # Expose port untuk Railway
 EXPOSE 8090
 
 # Jalankan PocketBase
-CMD ["./pocketbase", "serve", "--http=0.0.0.0:8090"]
+CMD ["./pocketbase_0.21.1_linux_amd64", "serve", "--http=0.0.0.0:8090"]
